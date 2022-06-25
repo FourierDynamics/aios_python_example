@@ -913,6 +913,8 @@ def passthrough_pt_bin(server_ip, cmd, position, velocity, torque):
 # 参数：包括设备IP 电机号
 # 无返回
 def setInputPosition_pt(server_ip, position, velocity, torque):
+    velocity = int(velocity*1000)
+    torque = int(torque*1000)
     tx_messages = struct.pack('<Bfhh', 0x0c, position, velocity, torque)
     print ("Send Data:", tx_messages)
     s.sendto(tx_messages, (server_ip, PORT_pt))
