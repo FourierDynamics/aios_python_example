@@ -879,6 +879,23 @@ def getEncoderInfo(server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
+# AIOS Get absolute encoder position
+# Parameters: including device IP
+# Return: encoder information
+def getAbsEncoder(server_ip):
+    data = {
+        'method' : 'GET',
+        'reqTarget' : '/abs_encoder',
+    }
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_srv))
+    try:
+        data, address = s.recvfrom(1024)
+        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+        json_obj = json.loads(data.decode('utf-8'))
+    except socket.timeout: # fail after 1 second of no activity
+        print("Didn't receive anymore data! [Timeout]")
 
 # AIOS passthrough pt_port
 # 参数：包括设备IP 电机号
